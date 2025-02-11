@@ -17,17 +17,32 @@ class PasswordController:
                     'require_special_chars': True
                 }
             
-            password = self.password_service.generate_password(policy)
-            return jsonify({'password': password}), 201
+            password, policy_number = self.password_service.generate_password(policy)
+            return jsonify({'password': password, 'policy_number': policy_number}), 201
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    def generate_and_store_password(self):
+        try:
+            user_id = request.json.get('user_id')
+            if not user_id:
+                return jsonify({'error': 'User ID is required'}), 400
+            
+            password, policy_number = self.password_service.generate_password()
+            self.password_service.store_password(user_id, password)
+            return jsonify({'password': password, 'policy_number': policy_number}), 201
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
     def validate_password(self):
         try:
+            user_id = request.json.get('user_id')
             password = request.json.get('password')
-            if not password:
-                return jsonify({'error': 'Password is required'}), 400
-            is_valid = self.password_service.validate_password(password)
+            if not user_id or not password:
+                return jsonify({'error': 'User ID and password are required'}), 400
+            is_valid, message = self.password_service.validate_password(user_id, password)
+            if message:
+                return jsonify({'is_valid': is_valid, 'message': message}), 200
             return jsonify({'is_valid': is_valid}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -36,6 +51,16 @@ class PasswordController:
         new_policy = request.json.get('policy')
         self.password_service.update_policy(new_policy)
         return jsonify({'message': 'Password policy updated successfully'}), 200
+
+    def update_policy(self):
+        try:
+            new_policy = request.json.get('policy')
+            if not new_policy:
+                return jsonify({'error': 'Policy is required'}), 400
+            self.password_service.update_policy(new_policy)
+            return jsonify({'message': 'Password policy updated successfully'}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
 
     def store_password(self):
         try:
