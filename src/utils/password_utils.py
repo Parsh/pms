@@ -46,7 +46,7 @@ class PasswordUtils:
     def check_password(self, password, hashed_password):
         return bcrypt.checkpw(password.encode(), hashed_password.encode())
 
-    def validate_password_policy(self, password, policy):
+    def validate_password_against_policy(self, password, policy):
         if not password:
             return False
 
@@ -82,6 +82,6 @@ def check_password(password, hashed_password):
     utils = PasswordUtils()
     return utils.check_password(password, hashed_password)
 
-def validate_password_policy(password, policy):
+def validate_password_against_policy(password, policy):
     utils = PasswordUtils()
-    return utils.validate_password_policy(password, policy)
+    return utils.validate_password_against_policy(password, policy)

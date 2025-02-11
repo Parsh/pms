@@ -1,9 +1,10 @@
 class PasswordModel:
-    def __init__(self, user_id, password_hash, created_at, updated_at):
+    def __init__(self, user_id, password_hash, created_at, updated_at, policy_number):
         self.user_id = user_id
         self.password_hash = password_hash
         self.created_at = created_at
         self.updated_at = updated_at
+        self.policy_number = policy_number
 
     def retrieve_password(self):
         # Implement the logic to retrieve the password
@@ -22,7 +23,8 @@ class PasswordModel:
             "user_id": self.user_id,
             "password_hash": self.password_hash,
             "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "updated_at": self.updated_at,
+            "policy_number": self.policy_number
         }
 
     @classmethod
@@ -31,5 +33,6 @@ class PasswordModel:
             user_id=data.get("user_id"),
             password_hash=data.get("password_hash"),
             created_at=data.get("created_at"),
-            updated_at=data.get("updated_at")
+            updated_at=data.get("updated_at"),
+            policy_number=data.get("policy_number")
         )
