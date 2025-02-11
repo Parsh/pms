@@ -27,7 +27,7 @@ env/
 .env
 
 # IDE - VSCode
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -41,6 +41,7 @@ htmlcov/
 
 # Application specific
 passwords.json
+policies.json
 
 # Logs
 *.log

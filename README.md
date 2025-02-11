@@ -91,25 +91,19 @@ PASSWORD_POLICY = {
 
 ## API Endpoints
 
-### Generate Password
+### Generate and Store Password
 - **URL:** `/api/generate`
 - **Method:** `POST`
 - **Payload:**
   ```json
   {
-    "policy": {
-      "min_length": 12,
-      "require_uppercase": true,
-      "require_lowercase": true,
-      "require_numbers": true,
-      "require_special_chars": true
-    }
+    "user_id": "user_id"
   }
   ```
 - **Response:**
   ```json
   {
-    "password": "generated_password"
+  "password": "generated_password",
   }
   ```
 
@@ -119,6 +113,7 @@ PASSWORD_POLICY = {
 - **Payload:**
   ```json
   {
+    "user_id": "user_id",
     "password": "password_to_validate"
   }
   ```
@@ -126,23 +121,6 @@ PASSWORD_POLICY = {
   ```json
   {
     "is_valid": true
-  }
-  ```
-
-### Store Password
-- **URL:** `/api/store`
-- **Method:** `POST`
-- **Payload:**
-  ```json
-  {
-    "user_id": "user_id",
-    "password": "password_to_store"
-  }
-  ```
-- **Response:**
-  ```json
-  {
-    "message": "Password stored successfully"
   }
   ```
 
@@ -159,6 +137,28 @@ PASSWORD_POLICY = {
   ```json
   {
     "is_valid": true
+  }
+  ```
+
+### Update Policy (Admin Only)
+- **URL:** `/api/update_policy`
+- **Method:** `POST`
+- **Payload:**
+  ```json
+  {
+  "policy": {
+    "min_length": 12,
+    "require_uppercase": true,
+    "require_lowercase": true,
+    "require_numbers": true,
+    "require_special_chars": true
+   }
+  }
+  ```
+- **Response:**
+  ```json
+  {
+  "message": "Password policy updated successfully"
   }
   ```
 
